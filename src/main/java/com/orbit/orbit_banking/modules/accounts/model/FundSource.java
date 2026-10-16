@@ -1,2 +1,7 @@
-package com.orbit.orbit_banking.modules.accounts.model;public enum FundSource {
+package com.orbit.orbit_banking.modules.accounts.model;
+
+public enum FundSource {
+    EMPLOYED,
+    BUSINESS,
+    OTHERS
 }
