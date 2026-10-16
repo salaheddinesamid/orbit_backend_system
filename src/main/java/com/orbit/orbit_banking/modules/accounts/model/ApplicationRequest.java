@@ -44,6 +44,9 @@ public class ApplicationRequest {
     @Enumerated(EnumType.STRING)
     private ApplicationRequestStatus status;
 
+    @Column(name = "comment")
+    private String comment;
+
     @ManyToOne
     @JoinColumn(
             name = "reviewed_by",
