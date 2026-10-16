@@ -1,2 +1,7 @@
-package com.orbit.orbit_banking.modules.accounts.model;public enum AccountType {
+package com.orbit.orbit_banking.modules.accounts.model;
+
+public enum AccountType {
+    CURRENT,
+    SAVINGS,
+    INVESTMENT
 }
