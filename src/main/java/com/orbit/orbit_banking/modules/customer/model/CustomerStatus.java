@@ -1,2 +1,7 @@
-package com.orbit.orbit_banking.modules.customer.model;public enum CustomerStatus {
+package com.orbit.orbit_banking.modules.customer.model;
+
+public enum CustomerStatus {
+    ACTIVE,
+    INACTIVE,
+    NEW
 }

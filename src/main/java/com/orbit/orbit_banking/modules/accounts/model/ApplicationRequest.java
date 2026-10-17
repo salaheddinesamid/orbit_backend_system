@@ -20,7 +20,7 @@ public class ApplicationRequest {
     private UUID id;
 
     @ManyToOne
-    @Column(name = "product_id")
+    @JoinColumn(name = "product_id")
     private AccountProduct accountProduct;
 
     @ManyToOne

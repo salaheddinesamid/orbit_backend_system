@@ -14,7 +14,7 @@ import java.util.UUID;
 public class AccountProduct {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "account_type")

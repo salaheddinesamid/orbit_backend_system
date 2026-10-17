@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class ExceptionHandlerController {
+public class AccountOpeningExceptionHandler {
 
     @ExceptionHandler(AccountOpeningRequestAlreadyExistsException.class)
     public ResponseEntity<ApiResponse<Void>> handleAccountOpeningRequestAlreadyExistsException(AccountOpeningRequestAlreadyExistsException ex) {
@@ -15,7 +15,7 @@ public class ExceptionHandlerController {
                 .status(HttpStatus.CONFLICT)
                 .body(ApiResponse.failure(
                         "ACCOUNT_REQUEST_ALREADY_EXISTS",
-                        "An open request for this account type already exists"
+                        ex.getMessage()
                 ));
     }
 }
