@@ -34,8 +34,7 @@ public class CurrentAccountOpeningImpl implements AccountOpening {
     public ApplicationRequest openAccount(NewAccountRequestDto dto) throws AccountOpeningRequestAlreadyExistsException {
         // Check if the customer is allowed to create new account: same account type
         if (!isEligible(
-                dto.getCustomerDetails().getNationalID(),
-                "CURRENT"
+                dto.getCustomerDetails().getNationalID()
         )){
             throw new AccountOpeningRequestAlreadyExistsException(
                     "An open request for this account type already exists"
@@ -63,12 +62,11 @@ public class CurrentAccountOpeningImpl implements AccountOpening {
     }
 
     private boolean isEligible(
-            String nationalID,
-            String accountType
+            String nationalID
     ){
-        return applicationRequestRepository.existsByCustomer_NationalIDAndAccountProduct_AccountType(
+        return ! applicationRequestRepository.existsByCustomer_NationalIDAndAccountProduct_AccountType(
                 nationalID,
-                AccountType.valueOf(accountType)
+                AccountType.valueOf("CURRENT")
         );
     }
 }

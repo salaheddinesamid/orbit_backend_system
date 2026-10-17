@@ -4,6 +4,7 @@ import com.orbit.orbit_banking.common.dto.ApiResponse;
 import com.orbit.orbit_banking.modules.accounts.dto.NewAccountRequestDto;
 import com.orbit.orbit_banking.modules.accounts.model.ApplicationRequest;
 import com.orbit.orbit_banking.modules.accounts.service.AccountOpening;
+import com.orbit.orbit_banking.modules.accounts.service.implementation.AccountOpeningQueryServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +15,11 @@ import java.util.List;
 public class ApplicationRequestController {
 
     private final List<AccountOpening> accountOpeningServices;
+    private final AccountOpeningQueryServiceImpl accountOpeningQueryService;
 
-    public ApplicationRequestController(List<AccountOpening> accountOpeningServices) {
+    public ApplicationRequestController(List<AccountOpening> accountOpeningServices, AccountOpeningQueryServiceImpl accountOpeningQueryService) {
         this.accountOpeningServices = accountOpeningServices;
+        this.accountOpeningQueryService = accountOpeningQueryService;
     }
 
     @PostMapping("new")
@@ -33,4 +36,16 @@ public class ApplicationRequestController {
         return ResponseEntity.ok()
                 .body(ApiResponse.ok(response));
     }
+
+    @GetMapping("/requests/get_all")
+    public ResponseEntity<ApiResponse<?>> getAllRequests(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size
+    ) {
+        return ResponseEntity.ok()
+                .body(ApiResponse.ok(
+                        accountOpeningQueryService.getAllAccountOpenings(page, size)
+                ));
+    }
+
 }
