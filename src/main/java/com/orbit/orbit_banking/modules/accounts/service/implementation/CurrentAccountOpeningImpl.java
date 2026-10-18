@@ -10,6 +10,7 @@ import com.orbit.orbit_banking.modules.customer.model.Customer;
 import com.orbit.orbit_banking.modules.customer.service.implementation.CustomerAdderServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CurrentAccountOpeningImpl implements AccountOpening {
@@ -17,11 +18,13 @@ public class CurrentAccountOpeningImpl implements AccountOpening {
     private final ApplicationRequestRepository applicationRequestRepository;
     private final CustomerAdderServiceImpl customerAdderService;
     private final AccountProductRepository accountProductRepository;
+    private final IdDocumentProcessorImpl idDocumentProcessor;
 
-    public CurrentAccountOpeningImpl(ApplicationRequestRepository applicationRequestRepository, CustomerAdderServiceImpl customerAdderService, AccountProductRepository accountProductRepository) {
+    public CurrentAccountOpeningImpl(ApplicationRequestRepository applicationRequestRepository, CustomerAdderServiceImpl customerAdderService, AccountProductRepository accountProductRepository, IdDocumentProcessorImpl idDocumentProcessor) {
         this.applicationRequestRepository = applicationRequestRepository;
         this.customerAdderService = customerAdderService;
         this.accountProductRepository = accountProductRepository;
+        this.idDocumentProcessor = idDocumentProcessor;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class CurrentAccountOpeningImpl implements AccountOpening {
 
     @Transactional
     @Override
-    public ApplicationRequest openAccount(NewAccountRequestDto dto) throws AccountOpeningRequestAlreadyExistsException {
+    public ApplicationRequest openAccount(NewAccountRequestDto dto, MultipartFile ID) throws AccountOpeningRequestAlreadyExistsException {
         // Check if the customer is allowed to create new account: same account type
         if (!isEligible(
                 dto.getCustomerDetails().getNationalID()
@@ -56,8 +59,13 @@ public class CurrentAccountOpeningImpl implements AccountOpening {
         newApplicationRequest.setStatus(ApplicationRequestStatus.CREATED);
 
         // Save the account application request
-        return applicationRequestRepository.save(newApplicationRequest);
+        ApplicationRequest savedRequest =  applicationRequestRepository.save(newApplicationRequest);
 
+        // Process and save ID document
+        IdDocument idDocument = idDocumentProcessor
+                .processAndSaveIdDocument(savedRequest.getId(), IdDocumentType.NATIONAL_ID, ID);
+
+        return savedRequest;
 
     }
 
