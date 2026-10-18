@@ -1,5 +1,6 @@
 package com.orbit.orbit_banking.modules.accounts.service;
 
+import com.orbit.orbit_banking.modules.accounts.dto.ApplicationRequestDetails;
 import com.orbit.orbit_banking.modules.accounts.model.ApplicationRequest;
 import org.springframework.data.domain.Page;
 
@@ -12,5 +13,5 @@ public interface AccountOpeningQueryService {
      * @param size
      * @return
      */
-    List<ApplicationRequest> getAllAccountOpenings(int page, int size);
+    Page<ApplicationRequestDetails> getAllAccountOpenings(int page, int size);
 }
