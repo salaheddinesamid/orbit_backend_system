@@ -33,3 +33,6 @@ build/
 .vscode/
 
 .fake
+
+# Application properties
+/src/main/resources/application.properties
