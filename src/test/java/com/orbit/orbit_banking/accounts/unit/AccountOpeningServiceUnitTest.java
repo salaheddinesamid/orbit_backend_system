@@ -77,7 +77,7 @@ public class AccountOpeningServiceUnitTest {
         when(applicationRequestRepository.save(any(ApplicationRequest.class)))
                 .thenAnswer(inv -> inv.getArgument(0));
 
-        ApplicationRequest result = accountOpeningService.openAccount(dto("BUSINESS")); // use a real FundSource value
+        ApplicationRequest result = accountOpeningService.openAccount(dto("BUSINESS"), null); // use a real FundSource value
 
         assertThat(result.getCustomer()).isSameAs(customer);
         assertThat(result.getAccountProduct()).isSameAs(product);
@@ -92,7 +92,7 @@ public class AccountOpeningServiceUnitTest {
                 .existsByCustomer_NationalIDAndAccountProduct_AccountType(NATIONAL_ID, AccountType.CURRENT))
                 .thenReturn(true);
 
-        assertThrows(AccountOpeningRequestAlreadyExistsException.class, () -> accountOpeningService.openAccount(dto("BUSINESS")));
+        assertThrows(AccountOpeningRequestAlreadyExistsException.class, () -> accountOpeningService.openAccount(dto("BUSINESS"), null));
 
     }
 }

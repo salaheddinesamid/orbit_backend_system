@@ -7,6 +7,7 @@ import com.orbit.orbit_banking.modules.accounts.service.AccountOpening;
 import com.orbit.orbit_banking.modules.accounts.service.implementation.AccountOpeningQueryServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,14 +25,15 @@ public class ApplicationRequestController {
 
     @PostMapping("new")
     public ResponseEntity<ApiResponse<?>> newAccount(
-            @RequestBody NewAccountRequestDto requestDto,
-            @RequestParam String accountType
+            @RequestPart(name = "data") NewAccountRequestDto requestDto,
+            @RequestParam String accountType,
+            @RequestPart(name = "idDocument") MultipartFile file
             ){
         AccountOpening accountOpeningService =
                 accountOpeningServices.stream().filter(service-> service.supports(accountType)).findFirst().orElse(null);
         assert accountOpeningService != null;
         ApplicationRequest response = accountOpeningService
-                .openAccount(requestDto);
+                .openAccount(requestDto, file);
 
         return ResponseEntity.ok()
                 .body(ApiResponse.ok(response));
