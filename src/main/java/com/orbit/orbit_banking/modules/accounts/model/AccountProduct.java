@@ -28,6 +28,9 @@ public class AccountProduct {
     @Column(name = "min_deposit")
     private BigDecimal minDeposit;
 
+    @Column(name = "monthly_fees", columnDefinition = "decimal default 0")
+    private BigDecimal monthlyFees;
+
     @Column(name = "active")
     private Boolean active;
 }
