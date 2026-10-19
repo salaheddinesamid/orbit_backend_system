@@ -8,6 +8,7 @@ import com.orbit.orbit_banking.modules.accounts.repository.AccountProductReposit
 import com.orbit.orbit_banking.modules.accounts.repository.ApplicationRequestRepository;
 import com.orbit.orbit_banking.modules.accounts.service.implementation.AccountOpeningQueryServiceImpl;
 import com.orbit.orbit_banking.modules.accounts.service.implementation.CurrentAccountOpeningImpl;
+import com.orbit.orbit_banking.modules.accounts.service.implementation.IdDocumentProcessorImpl;
 import com.orbit.orbit_banking.modules.customer.dto.CustomerDto;
 import com.orbit.orbit_banking.modules.customer.model.Customer;
 import com.orbit.orbit_banking.modules.customer.repository.CustomerRepository;
@@ -33,6 +34,9 @@ public class AccountOpeningServiceUnitTest {
 
     @Mock
     private AccountProductRepository accountProductRepository;
+
+    @Mock
+    private IdDocumentProcessorImpl idDocumentProcessor;
 
     @Mock
     private CustomerRepository customerRepository;

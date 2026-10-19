@@ -1,6 +1,6 @@
 package com.orbit.orbit_banking.modules.accounts.model;
 
-import com.orbit.orbit_banking.modules.administration.model.StaffUser;
+import com.orbit.orbit_banking.modules.authentication.model.UserAccount;
 import com.orbit.orbit_banking.modules.customer.model.Customer;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -52,7 +52,7 @@ public class ApplicationRequest {
             name = "reviewed_by",
             nullable = true
     )
-    private StaffUser reviewedBy;
+    private UserAccount reviewedBy;
 
     @OneToOne
     @JoinColumn(name = "resulted_bank_account_id")
