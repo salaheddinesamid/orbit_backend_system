@@ -1,6 +1,7 @@
 package com.orbit.orbit_banking.modules.accounts.controller;
 
 import com.orbit.orbit_banking.common.dto.ApiResponse;
+import com.orbit.orbit_banking.modules.accounts.dto.ApplicationRequestUpdateDto;
 import com.orbit.orbit_banking.modules.accounts.dto.NewAccountRequestDto;
 import com.orbit.orbit_banking.modules.accounts.model.ApplicationRequest;
 import com.orbit.orbit_banking.modules.accounts.service.AccountOpening;
@@ -54,16 +55,17 @@ public class ApplicationRequestController {
                 ));
     }
 
-    @PatchMapping("/requests/pre-approve")
+    @PatchMapping("/requests/update")
     public ResponseEntity<ApiResponse<?>> preApproveAccount(
-            @RequestParam UUID id
-    ){
+            @RequestParam UUID id,
+            @RequestBody ApplicationRequestUpdateDto updateDto
+            ){
 
         currentAccountApprovalService.preApprove(id);
         return ResponseEntity
                 .ok()
                 .body(ApiResponse.ok(
-                        String.format("Successfully pre-approved account %s", id)
+                        String.format("Successfully updated the request with ID: %s", id)
                 ));
     }
 
