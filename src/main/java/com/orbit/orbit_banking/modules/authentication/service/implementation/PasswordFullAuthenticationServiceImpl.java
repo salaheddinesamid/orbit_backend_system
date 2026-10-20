@@ -43,13 +43,12 @@ public class PasswordFullAuthenticationServiceImpl implements AuthenticationServ
             throw new MaximumAttemptsException();
         }
 
-        assert nextAttempt != null;
-        if(nextAttempt.after(Date.from(Instant.now()))) {
+        if(nextAttempt != null && nextAttempt.after(Date.from(Instant.now()))) {
             throw new MaximumAttemptsException();
         }
 
         // Compare the passwords
-        if(!passwordEncoder.matches(loginDto.getPassword(), userAccount.getPassword())) {
+        if(!passwordEncoder.matches(loginDto.getPassword(), userAccount.getHashedPassword())) {
             throw new InvalidCredentialsException("Invalid password");
         }
 

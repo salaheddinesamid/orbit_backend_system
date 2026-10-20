@@ -13,12 +13,10 @@ import java.util.List;
 public class AdminInitializer implements CommandLineRunner {
 
     private final UserAccountCreationServiceImpl userAccountCreationService;
-    private final PasswordEncoder passwordEncoder;
     private final UserAccountRepository userAccountRepository;
 
-    public AdminInitializer(UserAccountCreationServiceImpl userAccountCreationService, PasswordEncoder passwordEncoder, UserAccountRepository userAccountRepository) {
+    public AdminInitializer(UserAccountCreationServiceImpl userAccountCreationService, UserAccountRepository userAccountRepository) {
         this.userAccountCreationService = userAccountCreationService;
-        this.passwordEncoder = passwordEncoder;
         this.userAccountRepository = userAccountRepository;
     }
 
@@ -26,7 +24,7 @@ public class AdminInitializer implements CommandLineRunner {
         UserAccount admin = userAccountCreationService
                 .createUserAccount(
                         "super_admin23390",
-                        passwordEncoder.encode("admin2390"),
+                        "admin2390",
                         List.of("ADMIN")
                 );
     }
