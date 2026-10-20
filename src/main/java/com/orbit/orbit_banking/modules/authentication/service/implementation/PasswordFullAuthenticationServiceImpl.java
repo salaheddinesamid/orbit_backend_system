@@ -36,13 +36,14 @@ public class PasswordFullAuthenticationServiceImpl implements AuthenticationServ
                 .orElseThrow(() -> new AccountNotFoundException(String.format("No account has been found with username: %s", loginDto.getUsername())));
         // Fetch how many attempts, and when the next attempt takes place:
         int attempts = userAccount.getFailedAttempts();
-        Date nextAttempt = Date.from(userAccount.getLockedUntil());
+        Date nextAttempt = userAccount.getLockedUntil() != null ? Date.from(userAccount.getLockedUntil()) : null;
 
         // If the user attempts to authenticate more than 5 times, raise an exception
         if(attempts > 5) {
             throw new MaximumAttemptsException();
         }
 
+        assert nextAttempt != null;
         if(nextAttempt.after(Date.from(Instant.now()))) {
             throw new MaximumAttemptsException();
         }
