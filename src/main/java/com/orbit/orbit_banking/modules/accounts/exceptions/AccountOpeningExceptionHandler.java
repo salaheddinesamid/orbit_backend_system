@@ -18,4 +18,14 @@ public class AccountOpeningExceptionHandler {
                         ex.getMessage()
                 ));
     }
+
+    @ExceptionHandler(ApplicationOpeningRequiresPreApprovalException.class)
+    public ResponseEntity<ApiResponse<Void>> handleApplicationOpeningRequiresPreApproval(AccountOpeningRequestAlreadyExistsException ex) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(ApiResponse.failure(
+                        "ACCOUNT_REQUEST_ALREADY_EXISTS",
+                        ex.getMessage()
+                ));
+    }
 }
