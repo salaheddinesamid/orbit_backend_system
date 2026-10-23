@@ -61,7 +61,7 @@ public class PasswordFullAuthenticationUnitTest {
         when(userAccountRepository.findByUsername(loginDto.getUsername()))
                 .thenReturn(Optional.ofNullable(userAccount));
 
-        when(passwordEncoder.matches(loginDto.getPassword(), userAccount.getPassword()))
+        when(passwordEncoder.matches(loginDto.getPassword(), userAccount.getHashedPassword()))
                 .thenReturn(true);
 
         LoginResponseDto responseDto = authenticationService
