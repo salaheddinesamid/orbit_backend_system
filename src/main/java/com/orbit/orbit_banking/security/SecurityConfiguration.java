@@ -35,6 +35,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/registrations/new").permitAll()
                         .requestMatchers("/api/v1/registrations/requests/update/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/v1/registrations/requests/get_all").hasAuthority("ADMIN")
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/banking/products/get").permitAll()
                         .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html","/error").permitAll()
