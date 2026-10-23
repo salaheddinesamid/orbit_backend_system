@@ -31,7 +31,12 @@ public class UserAccount implements UserDetails {
     @Column(name = "hashed_password")
     private String hashedPassword;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<Role> roles = new HashSet<>();
 
     private boolean enabled = true;
@@ -40,11 +45,6 @@ public class UserAccount implements UserDetails {
     private boolean mfaEnabled;
     private String mfaSecretEncrypted;
 
-    public List<String> getRoles(){
-        return this.roles
-                .stream().map(role -> role.getRoleName().toString())
-                .toList();
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
