@@ -6,6 +6,7 @@ import com.orbit.orbit_banking.modules.authentication.exceptions.AccountNotFound
 import com.orbit.orbit_banking.modules.authentication.exceptions.InvalidCredentialsException;
 import com.orbit.orbit_banking.modules.authentication.exceptions.MaximumAttemptsException;
 import com.orbit.orbit_banking.modules.authentication.jwt.JwtUtils;
+import com.orbit.orbit_banking.modules.authentication.model.Role;
 import com.orbit.orbit_banking.modules.authentication.model.UserAccount;
 import com.orbit.orbit_banking.modules.authentication.repository.UserAccountRepository;
 import com.orbit.orbit_banking.modules.authentication.service.AuthenticationService;
@@ -61,7 +62,7 @@ public class PasswordFullAuthenticationServiceImpl implements AuthenticationServ
                 accessToken,
                 "Bearer",
                 0,
-                userAccount.getRoles()
+                null
         );
     }
 }
