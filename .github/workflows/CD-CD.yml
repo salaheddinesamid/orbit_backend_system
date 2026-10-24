@@ -16,8 +16,28 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    environment: test
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: orbit_banking
+          MYSQL_ROOT_PASSWORD: ${{ DB_PASSWORD }}
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot_test_password"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+          --health-start-period=10s
+    
+
+    env:
+      DB_URL : ${{ secrets.DB_URL }}
+      DB_PASSWORD : ${{ sectrets.DB_PASSWORD }}
 
     steps:
     - uses: actions/checkout@v4
@@ -27,8 +47,15 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+
+    - uses: actions/checkout@v4
+    - name: Verify Java & Maven
+      run: |
+        java -version
+        ./mvnw -version
+        
+    - name: Build and Test
+      run: ./mvnw clean verify --spring.profiles.active=test
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
