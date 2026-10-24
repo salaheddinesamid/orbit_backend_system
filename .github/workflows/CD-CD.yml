@@ -37,7 +37,7 @@ jobs:
 
     env:
       DB_URL : ${{ secrets.DB_URL }}
-      DB_PASSWORD : ${{ sectrets.DB_PASSWORD }}
+      DB_PASSWORD : ${{ secrets.DB_PASSWORD }}
 
     steps:
     - uses: actions/checkout@v4
