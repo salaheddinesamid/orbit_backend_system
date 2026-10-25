@@ -42,6 +42,9 @@ public class CurrentAccountApprovalServiceImpl implements AccountApprovalService
 
         // Set new status for the application request:
         request.setStatus(ApplicationRequestStatus.WAITING_FOR_CLIENT_SIGNATURE);
+
+        // Save the updated request
+        appRequestRepository.save(request);
     }
 
     @Override
