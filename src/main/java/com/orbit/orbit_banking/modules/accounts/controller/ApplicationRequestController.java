@@ -4,6 +4,7 @@ import com.orbit.orbit_banking.common.dto.ApiResponse;
 import com.orbit.orbit_banking.modules.accounts.dto.ApplicationRequestUpdateDto;
 import com.orbit.orbit_banking.modules.accounts.dto.NewAccountRequestDto;
 import com.orbit.orbit_banking.modules.accounts.model.ApplicationRequest;
+import com.orbit.orbit_banking.modules.accounts.model.BankAccount;
 import com.orbit.orbit_banking.modules.accounts.service.AccountOpening;
 import com.orbit.orbit_banking.modules.accounts.service.implementation.AccountOpeningQueryServiceImpl;
 import com.orbit.orbit_banking.modules.accounts.service.implementation.CurrentAccountApprovalServiceImpl;
@@ -69,9 +70,17 @@ public class ApplicationRequestController {
                 ));
     }
 
-    @PatchMapping("/requests/client-signature/sign")
-    public ResponseEntity<ApiResponse<?>> clientSignatureSign(){
-        return null;
+    @PatchMapping("/requests/sign")
+    public ResponseEntity<ApiResponse<BankAccount>> sign(
+            @RequestParam UUID uuid
+    ){
+        BankAccount bankAccount = currentAccountApprovalService
+                .approve(uuid);
+
+        return ResponseEntity.status(200)
+                .body(ApiResponse.ok(
+                        bankAccount
+                ));
     }
 
 }

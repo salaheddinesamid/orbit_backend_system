@@ -106,7 +106,8 @@ public class CurrentAccountApprovalServiceImpl implements AccountApprovalService
             .createUserAccount(
                     userCredentials.get("username"),
                     userCredentials.get("password"),
-                    List.of("CUSTOMER"));
+                    List.of("CUSTOMER")
+            );
 
         // Set the owner ID
         bankAccount.setOwnerId(userAccount);
