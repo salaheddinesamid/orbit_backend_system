@@ -32,6 +32,6 @@ public class AccountNumberExtractorUniTest {
     void testExtractBankCodeSuccess() {
         String currentBankCode =
                 accountNumberExtractor.extractBankCode(randomRIB);
-        assertEquals(986,currentBankCode, "");
+        assertEquals("986",currentBankCode, "");
     }
 }
