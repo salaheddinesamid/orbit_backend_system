@@ -37,7 +37,12 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/registrations/requests/update/**").hasAuthority("ADMIN")
                         .requestMatchers("/api/v1/registrations/requests/get_all").hasAuthority("ADMIN")
                         .requestMatchers("/api/v1/auth/**").permitAll()
+
+                        /*
+                        BANKING ENDPOINTS AUTHORIZATION
+                         */
                         .requestMatchers("/api/v1/banking/products/get").permitAll()
+                        .requestMatchers("/api/v1/banking/transfer").hasAuthority("CUSTOMER")
                         .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html","/error").permitAll()
                         .anyRequest().authenticated()
                 )
