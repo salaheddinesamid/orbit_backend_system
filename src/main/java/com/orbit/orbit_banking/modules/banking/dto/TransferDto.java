@@ -15,5 +15,8 @@ public class TransferDto {
     private String senderAccountNumber;
     @NotNull(message = "")
     private BigDecimal amount;
+    @NotNull(message = "")
+    private String type;
+    @NotNull(message = "")
     private Date transferDate;
 }
