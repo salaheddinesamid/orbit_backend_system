@@ -1,5 +1,6 @@
 package com.orbit.orbit_banking.modules.authentication.model;
 
+import com.orbit.orbit_banking.modules.customer.model.Customer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,6 +45,10 @@ public class UserAccount implements UserDetails {
     private Instant lockedUntil;
     private boolean mfaEnabled;
     private String mfaSecretEncrypted;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
 
     @Override
