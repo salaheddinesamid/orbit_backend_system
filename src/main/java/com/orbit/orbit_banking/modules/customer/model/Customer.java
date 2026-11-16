@@ -1,5 +1,6 @@
 package com.orbit.orbit_banking.modules.customer.model;
 
+import com.orbit.orbit_banking.modules.authentication.model.UserAccount;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -54,5 +57,12 @@ public class Customer {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private CustomerStatus status;
+
+    @OneToMany(
+            mappedBy = "customer",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<UserAccount> userAccounts = new ArrayList<>();
 
 }
