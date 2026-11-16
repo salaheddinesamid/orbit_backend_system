@@ -110,7 +110,12 @@ public class CurrentAccountApprovalServiceImpl implements AccountApprovalService
             );
 
         // Set the owner ID
-        bankAccount.setOwnerId(userAccount);
+        bankAccount.setCustomer(customer);
+
+        // Update the bidirectional relationship Customer -> User
+        userAccount.setCustomer(customer);
+        customer.getUserAccounts().add(userAccount);
+
         // Set the product ID
         bankAccount.setProduct(product);
 
