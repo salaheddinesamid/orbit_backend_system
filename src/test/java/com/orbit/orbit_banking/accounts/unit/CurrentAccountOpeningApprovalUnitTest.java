@@ -142,7 +142,7 @@ public class CurrentAccountOpeningApprovalUnitTest {
         // Assert
         assertNotNull(result);
         assertSame(bankAccount, result);
-        assertSame(userAccount, result.getOwnerId());
+        assertSame(userAccount, result.getCustomer().getUserAccounts().get(0));
         assertSame(product, result.getProduct());
         assertEquals(ApplicationRequestStatus.APPROVED,
                 request.getStatus());

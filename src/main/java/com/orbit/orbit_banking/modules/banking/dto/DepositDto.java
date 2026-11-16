@@ -1,4 +1,9 @@
 package com.orbit.orbit_banking.modules.banking.dto;
 
-public class DepositDto {
-}
+import java.math.BigDecimal;
+
+public record DepositDto(
+        String accountNumber,
+        BigDecimal amount
+
+) {}

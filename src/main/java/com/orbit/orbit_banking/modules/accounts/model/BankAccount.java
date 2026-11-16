@@ -46,9 +46,9 @@ public class BankAccount {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name = "owner_id"
+            name = "customer_id"
     )
-    private UserAccount ownerId;
+    private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")

@@ -7,7 +7,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -42,6 +41,7 @@ public class SecurityConfiguration {
                         BANKING ENDPOINTS AUTHORIZATION
                          */
                         .requestMatchers("/api/v1/banking/products/get").permitAll()
+                        .requestMatchers("/api/v1/banking/accounts/get").permitAll()
                         .requestMatchers("/api/v1/banking/transfer").hasAuthority("CUSTOMER")
                         .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html","/error").permitAll()
                         .anyRequest().authenticated()
