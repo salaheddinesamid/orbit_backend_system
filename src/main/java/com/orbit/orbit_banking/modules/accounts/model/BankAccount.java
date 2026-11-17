@@ -24,6 +24,10 @@ public class BankAccount {
     @Column(nullable = false, unique = true, length = 34)
     private String iban;
 
+    @Column(name = "RIB", unique = true)
+    private String RIB;
+
+
     @Column(name = "account_number", nullable = false, unique = true, length = 30)
     private String accountNumber;
 
