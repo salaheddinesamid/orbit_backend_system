@@ -5,6 +5,7 @@ import com.orbit.orbit_banking.modules.accounts.model.*;
 import com.orbit.orbit_banking.modules.accounts.repository.ApplicationRequestRepository;
 import com.orbit.orbit_banking.modules.accounts.repository.BankAccountRepository;
 import com.orbit.orbit_banking.modules.accounts.service.implementation.CurrentAccountApprovalServiceImpl;
+import com.orbit.orbit_banking.modules.accounts.utils.BankAccountDetailsGenerator;
 import com.orbit.orbit_banking.modules.accounts.utils.UserCredentialsGenerator;
 import com.orbit.orbit_banking.modules.authentication.model.UserAccount;
 import com.orbit.orbit_banking.modules.authentication.service.implementation.UserAccountCreationServiceImpl;
@@ -33,6 +34,9 @@ public class CurrentAccountOpeningApprovalUnitTest {
 
     @Mock
     private BankAccountMapper bankAccountMapper;
+
+    @Mock
+    private BankAccountDetailsGenerator bankAccountDetailsGenerator;
 
     @Mock
     private UserCredentialsGenerator userCredentialsGenerator;

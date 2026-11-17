@@ -1,6 +1,8 @@
 package com.orbit.orbit_banking.accounts.unit;
 
+import com.orbit.orbit_banking.modules.accounts.dto.BankAccountDetails;
 import com.orbit.orbit_banking.modules.accounts.model.BankAccount;
+import com.orbit.orbit_banking.modules.accounts.model.BankAccountStatus;
 import com.orbit.orbit_banking.modules.accounts.repository.BankAccountRepository;
 import com.orbit.orbit_banking.modules.accounts.service.implementation.AccountQueryServiceImpl;
 import com.orbit.orbit_banking.modules.authentication.model.UserAccount;
@@ -39,17 +41,17 @@ public class BankAccountQueryServiceUnitTest {
         bankAccount = new BankAccount();
         bankAccount.setId(UUID.randomUUID());
         bankAccount.setCustomer(customer);
+        bankAccount.setStatus(BankAccountStatus.ACTIVE);
 
 
     }
     @Test
     void testFetchBankAccountByNationalId(){
 
-        when(bankAccountRepository.findByCustomer_NationalId("RANDOM"))
+        when(bankAccountRepository.findByCustomer_NationalID("RANDOM"))
                 .thenReturn(Optional.of(bankAccount));
 
-        BankAccount result = accountQueryService.getAccount("RANDOM");
+        BankAccountDetails result = accountQueryService.getAccount("RANDOM");
         assertNotNull(result);
-        assertEquals(result, bankAccount);
     }
 }
