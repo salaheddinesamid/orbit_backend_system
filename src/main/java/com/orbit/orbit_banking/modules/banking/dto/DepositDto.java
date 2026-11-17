@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public record DepositDto(
         String accountNumber,
-        BigDecimal amount
+        BigDecimal amount,
+        String channel
 
 ) {}
