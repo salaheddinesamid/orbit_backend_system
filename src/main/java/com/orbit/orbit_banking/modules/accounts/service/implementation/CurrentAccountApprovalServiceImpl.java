@@ -1,11 +1,13 @@
 package com.orbit.orbit_banking.modules.accounts.service.implementation;
 
+import com.orbit.orbit_banking.modules.accounts.dto.BankAccountDetails;
 import com.orbit.orbit_banking.modules.accounts.exceptions.ApplicationOpeningRequiresPreApprovalException;
 import com.orbit.orbit_banking.modules.accounts.mapper.BankAccountMapper;
 import com.orbit.orbit_banking.modules.accounts.model.*;
 import com.orbit.orbit_banking.modules.accounts.repository.ApplicationRequestRepository;
 import com.orbit.orbit_banking.modules.accounts.repository.BankAccountRepository;
 import com.orbit.orbit_banking.modules.accounts.service.AccountApprovalService;
+import com.orbit.orbit_banking.modules.accounts.utils.BankAccountDetailsGenerator;
 import com.orbit.orbit_banking.modules.accounts.utils.UserCredentialsGenerator;
 import com.orbit.orbit_banking.modules.authentication.model.UserAccount;
 import com.orbit.orbit_banking.modules.authentication.service.implementation.UserAccountCreationServiceImpl;
@@ -25,13 +27,15 @@ public class CurrentAccountApprovalServiceImpl implements AccountApprovalService
     private final UserCredentialsGenerator userCredentialsGenerator;
     private final UserAccountCreationServiceImpl userAccountCreationService;
     private final BankAccountRepository bankAccountRepository;
+    private final BankAccountDetailsGenerator bankAccountDetailsGenerator;
 
-    public CurrentAccountApprovalServiceImpl(ApplicationRequestRepository appRequestRepository, BankAccountMapper bankAccountMapper, UserCredentialsGenerator userCredentialsGenerator, UserAccountCreationServiceImpl userAccountCreationService, BankAccountRepository bankAccountRepository) {
+    public CurrentAccountApprovalServiceImpl(ApplicationRequestRepository appRequestRepository, BankAccountMapper bankAccountMapper, UserCredentialsGenerator userCredentialsGenerator, UserAccountCreationServiceImpl userAccountCreationService, BankAccountRepository bankAccountRepository, BankAccountDetailsGenerator bankAccountDetailsGenerator) {
         this.appRequestRepository = appRequestRepository;
         this.bankAccountMapper = bankAccountMapper;
         this.userCredentialsGenerator = userCredentialsGenerator;
         this.userAccountCreationService = userAccountCreationService;
         this.bankAccountRepository = bankAccountRepository;
+        this.bankAccountDetailsGenerator = bankAccountDetailsGenerator;
     }
 
     @Override
@@ -49,7 +53,7 @@ public class CurrentAccountApprovalServiceImpl implements AccountApprovalService
 
     @Override
     @Transactional
-    public BankAccount approve(UUID requestId) {
+    public BankAccountDetails approve(UUID requestId) {
 
         // Fetch the approved request from the database
         ApplicationRequest request = appRequestRepository
@@ -63,7 +67,11 @@ public class CurrentAccountApprovalServiceImpl implements AccountApprovalService
         // Change the application status
         request.setStatus(ApplicationRequestStatus.APPROVED);
         // Post-approval
-        return postApprove(requestId);
+        BankAccount resultedBankAccount = postApprove(requestId);
+
+        return new BankAccountDetails(
+                resultedBankAccount
+        );
 
     }
 
@@ -111,6 +119,13 @@ public class CurrentAccountApprovalServiceImpl implements AccountApprovalService
 
         // Set the owner ID
         bankAccount.setCustomer(customer);
+
+        BankAccountDetailsGenerator.BankAccountDetails bankAccountDetails = bankAccountDetailsGenerator
+                .generateBankAccountDetails("009",
+                        "001", bankAccount.getAccountNumber());
+
+        bankAccount.setIban(bankAccountDetails.iban());
+        bankAccount.setRIB(bankAccountDetails.rib());
 
         // Update the bidirectional relationship Customer -> User
         userAccount.setCustomer(customer);

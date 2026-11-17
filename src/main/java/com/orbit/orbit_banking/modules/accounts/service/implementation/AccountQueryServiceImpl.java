@@ -1,5 +1,6 @@
 package com.orbit.orbit_banking.modules.accounts.service.implementation;
 
+import com.orbit.orbit_banking.modules.accounts.dto.BankAccountDetails;
 import com.orbit.orbit_banking.modules.accounts.model.BankAccount;
 import com.orbit.orbit_banking.modules.accounts.repository.BankAccountRepository;
 import com.orbit.orbit_banking.modules.accounts.service.AccountQueryService;
@@ -16,8 +17,10 @@ public class AccountQueryServiceImpl implements AccountQueryService {
     }
 
     @Override
-    public BankAccount getAccount(String nationalId) throws BankAccountNotFoundException {
-        return bankAccountRepository
+    public BankAccountDetails getAccount(String nationalId) throws BankAccountNotFoundException {
+        BankAccount bankAccount =  bankAccountRepository
                 .findByCustomer_NationalID(nationalId).orElseThrow(()-> new BankAccountNotFoundException(nationalId));
+
+        return new BankAccountDetails(bankAccount);
     }
 }
