@@ -4,6 +4,7 @@ import com.orbit.orbit_banking.modules.accounts.model.BankAccount;
 import com.orbit.orbit_banking.modules.accounts.repository.BankAccountRepository;
 import com.orbit.orbit_banking.modules.banking.dto.TransactionResponse;
 import com.orbit.orbit_banking.modules.banking.dto.TransferDto;
+import com.orbit.orbit_banking.modules.banking.model.Transaction;
 import com.orbit.orbit_banking.modules.banking.model.TransactionType;
 import com.orbit.orbit_banking.modules.banking.repository.TransactionRepository;
 import com.orbit.orbit_banking.modules.banking.service.implementation.InternalTransferServiceImpl;
@@ -71,6 +72,10 @@ public class InternalTransferServiceUnitTest {
     @Test
     void testInternalTransferSuccess(){
 
+        Transaction expected = new Transaction();
+        expected.setTransactionId(UUID.randomUUID());
+
+
         String beneficiaryAccountNumber = accountNumberExtractor.extractAccountNumber(transferDto.getBeneficiaryRIB());
 
         when(bankAccountRepository.findByAccountNumber(transferDto.getSenderAccountNumber()))
@@ -79,8 +84,11 @@ public class InternalTransferServiceUnitTest {
         when(bankAccountRepository.findByAccountNumber(beneficiaryAccountNumber))
                 .thenReturn(Optional.of(beneficiary));
 
+        when(transactionRepository.save(any()))
+                .thenReturn(expected);
+
         TransactionResponse transactionResponse =
-                internalTransferService.transfer(TransactionType.INTERNAL, transferDto);
+                internalTransferService.transfer(TransactionType.TRANSFER, transferDto);
 
         assertNotNull(transactionResponse);
         assertEquals(sender.getBalance(), BigDecimal.valueOf(700.0));

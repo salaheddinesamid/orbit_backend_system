@@ -98,6 +98,7 @@ public class CurrentAccountOpeningApprovalUnitTest {
         // Arrange
         UUID requestId = UUID.randomUUID();
 
+
         Customer customer = new Customer();
         customer.setFirstName("John");
         customer.setLastName("Doe");
