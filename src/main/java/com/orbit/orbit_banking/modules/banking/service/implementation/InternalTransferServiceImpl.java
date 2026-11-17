@@ -7,6 +7,7 @@ import com.orbit.orbit_banking.modules.banking.dto.TransferDto;
 import com.orbit.orbit_banking.modules.banking.exceptions.BankAccountNotFoundException;
 import com.orbit.orbit_banking.modules.banking.exceptions.InsufficientBalanceException;
 import com.orbit.orbit_banking.modules.banking.model.Transaction;
+import com.orbit.orbit_banking.modules.banking.model.TransactionChannel;
 import com.orbit.orbit_banking.modules.banking.model.TransactionType;
 import com.orbit.orbit_banking.modules.banking.repository.TransactionRepository;
 import com.orbit.orbit_banking.modules.banking.service.TransferService;
@@ -32,7 +33,7 @@ public class InternalTransferServiceImpl implements TransferService {
 
     @Override
     public boolean supports(TransactionType transactionType) {
-        return transactionType.equals(TransactionType.INTERNAL);
+        return transactionType.equals(TransactionType.TRANSFER);
     }
 
     @Override
@@ -60,7 +61,9 @@ public class InternalTransferServiceImpl implements TransferService {
         // In case the sender has sufficient balance
         Transaction transaction = new Transaction();
         transaction.setAmount(transferDto.getAmount());
-
+        transaction.setChannel(TransactionChannel.ONLINE_BANKING);
+        transaction.setTransactionType(TransactionType.TRANSFER);
+        transaction.setBalanceBefore(beneficiary.getBalance());
 
         // Update sender bank account balance
         sender.setBalance(sender.getBalance().subtract(transferDto.getAmount()));
@@ -76,7 +79,14 @@ public class InternalTransferServiceImpl implements TransferService {
         Transaction savedTransaction = transactionRepository.save(transaction);
 
         return new TransactionResponse(
-
+                savedTransaction.getTransactionId(),
+                savedTransaction.getReference(),
+                savedTransaction.getTransactionType(),
+                savedTransaction.getAmount(),
+                savedTransaction.getBalanceBefore(),
+                savedTransaction.getBalanceAfter(),
+                savedTransaction.getStatus(),
+                savedTransaction.getIssuedAt()
         );
     }
 }
