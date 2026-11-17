@@ -28,6 +28,12 @@ public class Transaction {
     @Column(name = "amount")
     private BigDecimal amount;
 
+    @Column(nullable = false, precision = 19, scale = 4)
+    private BigDecimal balanceBefore;
+
+    @Column(nullable = false, precision = 19, scale = 4)
+    private BigDecimal balanceAfter;
+
     @ManyToOne
     @JoinColumn(name = "sender_account_id")
     private BankAccount senderAccount;
@@ -40,10 +46,19 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
+    @Column(name = "transaction_channel")
+    @Enumerated(EnumType.STRING)
+    private TransactionChannel channel;
+
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private TransactionStatus status;
 
     @Column(name = "issued_at")
     private LocalDateTime issuedAt;
+
+    @PrePersist
+    void update(){
+        this.issuedAt = LocalDateTime.now();
+    }
 }
