@@ -2,6 +2,7 @@ package com.orbit.orbit_banking.modules.accounts.controller;
 
 import com.orbit.orbit_banking.common.dto.ApiResponse;
 import com.orbit.orbit_banking.modules.accounts.dto.ApplicationRequestUpdateDto;
+import com.orbit.orbit_banking.modules.accounts.dto.BankAccountDetails;
 import com.orbit.orbit_banking.modules.accounts.dto.NewAccountRequestDto;
 import com.orbit.orbit_banking.modules.accounts.model.ApplicationRequest;
 import com.orbit.orbit_banking.modules.accounts.model.BankAccount;
@@ -71,10 +72,10 @@ public class ApplicationRequestController {
     }
 
     @PatchMapping("/requests/sign")
-    public ResponseEntity<ApiResponse<BankAccount>> sign(
+    public ResponseEntity<ApiResponse<BankAccountDetails>> sign(
             @RequestParam UUID uuid
     ){
-        BankAccount bankAccount = currentAccountApprovalService
+        BankAccountDetails bankAccount = currentAccountApprovalService
                 .approve(uuid);
 
         return ResponseEntity.status(200)

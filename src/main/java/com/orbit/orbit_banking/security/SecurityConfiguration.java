@@ -44,6 +44,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/banking/products/get").permitAll()
                         .requestMatchers("/api/v1/banking/accounts/get").permitAll()
                         .requestMatchers("/api/v1/banking/transfer").hasAuthority("CUSTOMER")
+                        .requestMatchers("/api/v1/banking/deposit").permitAll()
                         .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html","/error").permitAll()
                         .anyRequest().authenticated()
                 )

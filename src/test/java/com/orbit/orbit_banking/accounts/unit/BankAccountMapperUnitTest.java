@@ -5,7 +5,7 @@ import com.orbit.orbit_banking.modules.accounts.model.AccountType;
 import com.orbit.orbit_banking.modules.accounts.model.BankAccount;
 import com.orbit.orbit_banking.modules.accounts.model.BankAccountStatus;
 import com.orbit.orbit_banking.modules.accounts.utils.AccountNumberGenerator;
-import com.orbit.orbit_banking.modules.accounts.utils.RibGenerator;
+import com.orbit.orbit_banking.modules.accounts.utils.BankAccountDetailsGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -34,7 +34,7 @@ public class BankAccountMapperUnitTest {
     void toBankAccount_shouldCreateAccountWithExpectedFields() {
         AccountNumberGenerator accountNumberGenerator =
                 mock(AccountNumberGenerator.class);
-        RibGenerator ribGenerator = mock(RibGenerator.class);
+        BankAccountDetailsGenerator ribGenerator = mock(BankAccountDetailsGenerator.class);
 
         when(accountNumberGenerator.generateAccountNumber())
                 .thenReturn("123456789012");

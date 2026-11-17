@@ -4,16 +4,16 @@ import com.orbit.orbit_banking.modules.accounts.model.AccountType;
 import com.orbit.orbit_banking.modules.accounts.model.BankAccount;
 import com.orbit.orbit_banking.modules.accounts.model.BankAccountStatus;
 import com.orbit.orbit_banking.modules.accounts.utils.AccountNumberGenerator;
-import com.orbit.orbit_banking.modules.accounts.utils.RibGenerator;
+import com.orbit.orbit_banking.modules.accounts.utils.BankAccountDetailsGenerator;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BankAccountMapper {
 
     private final AccountNumberGenerator accountNumberGenerator;
-    private final RibGenerator ribGenerator;
+    private final BankAccountDetailsGenerator ribGenerator;
 
-    public BankAccountMapper(AccountNumberGenerator accountNumberGenerator, RibGenerator ribGenerator) {
+    public BankAccountMapper(AccountNumberGenerator accountNumberGenerator, BankAccountDetailsGenerator ribGenerator) {
         this.accountNumberGenerator = accountNumberGenerator;
         this.ribGenerator = ribGenerator;
     }
