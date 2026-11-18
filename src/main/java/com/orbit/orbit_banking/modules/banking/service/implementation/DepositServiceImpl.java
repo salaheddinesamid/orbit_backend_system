@@ -6,6 +6,7 @@ import com.orbit.orbit_banking.modules.authentication.model.UserAccount;
 import com.orbit.orbit_banking.modules.banking.dto.DepositDto;
 import com.orbit.orbit_banking.modules.banking.dto.TransactionResponse;
 import com.orbit.orbit_banking.modules.banking.exceptions.BankAccountNotFoundException;
+import com.orbit.orbit_banking.modules.banking.mapper.TransactionMapper;
 import com.orbit.orbit_banking.modules.banking.model.*;
 import com.orbit.orbit_banking.modules.banking.repository.TransactionRepository;
 import com.orbit.orbit_banking.modules.banking.service.DepositService;
@@ -20,9 +21,12 @@ public class DepositServiceImpl implements DepositService {
     private final BankAccountRepository bankAccountRepository;
     private final TransactionRepository transactionRepository;
 
-    public DepositServiceImpl(BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository) {
+    private final TransactionMapper transactionMapper;
+
+    public DepositServiceImpl(BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository, TransactionMapper transactionMapper) {
         this.bankAccountRepository = bankAccountRepository;
         this.transactionRepository = transactionRepository;
+        this.transactionMapper = transactionMapper;
     }
 
     @Transactional
@@ -37,12 +41,12 @@ public class DepositServiceImpl implements DepositService {
         }
 
         // Create transaction record
-        Transaction transaction = new Transaction();
-        transaction.setStatus(TransactionStatus.EXECUTED);
-        transaction.setAmount(depositDto.amount());
+        Transaction transaction = transactionMapper
+                .mapToTransaction(depositDto.amount(), TransactionType.DEPOSIT, depositDto.channel());
+
+        // Set the beneficiary and his balance before the transaction
         transaction.setBeneficiaryAccount(beneficiary);
         transaction.setBalanceBefore(beneficiary.getBalance());
-        transaction.setChannel(TransactionChannel.valueOf(depositDto.channel()));
 
         // Update the account balance
         beneficiary.setBalance(beneficiary.getBalance().add(depositDto.amount()));
