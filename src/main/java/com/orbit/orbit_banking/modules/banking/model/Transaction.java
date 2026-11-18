@@ -42,13 +42,16 @@ public class Transaction {
     @JoinColumn(name = "beneficiary_account_id", nullable = true)
     private BankAccount beneficiaryAccount;
 
-    @Column(name = "transaction_type")
     @Enumerated(EnumType.STRING)
+    @Column(name = "transaction_type", nullable = false, length = 50)
     private TransactionType transactionType;
 
     @Column(name = "transaction_channel")
     @Enumerated(EnumType.STRING)
     private TransactionChannel channel;
+
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
