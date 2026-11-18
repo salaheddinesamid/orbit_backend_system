@@ -21,8 +21,8 @@ public class BankingService {
     @Enumerated(EnumType.STRING)
     private ServiceType type;
 
-    @Column(name = "desc")
-    private String desc;
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "code", unique = true)
     private String code;
