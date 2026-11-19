@@ -6,6 +6,7 @@ import com.orbit.orbit_banking.modules.accounts.repository.BankAccountRepository
 import com.orbit.orbit_banking.modules.accounts.service.AccountQueryService;
 import com.orbit.orbit_banking.modules.banking.exceptions.BankAccountNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AccountQueryServiceImpl implements AccountQueryService {
@@ -17,9 +18,35 @@ public class AccountQueryServiceImpl implements AccountQueryService {
     }
 
     @Override
-    public BankAccountDetails getAccount(String nationalId) throws BankAccountNotFoundException {
-        BankAccount bankAccount =  bankAccountRepository
-                .findByCustomer_NationalID(nationalId).orElseThrow(()-> new BankAccountNotFoundException(nationalId));
+    @Transactional(readOnly = true)
+    public BankAccountDetails getAccount(
+            String nationalId,
+            Long userId
+    ) throws BankAccountNotFoundException {
+
+        BankAccount bankAccount;
+
+        if (userId != null) {
+            bankAccount = bankAccountRepository
+                    .findAllByUserId(userId)
+                    .stream()
+                    .findFirst()
+                    .orElseThrow(() ->
+                            new BankAccountNotFoundException(userId.toString())
+                    );
+
+        } else if (nationalId != null && !nationalId.isBlank()) {
+            bankAccount = bankAccountRepository
+                    .findByCustomer_NationalID(nationalId)
+                    .orElseThrow(() ->
+                            new BankAccountNotFoundException(nationalId)
+                    );
+
+        } else {
+            throw new IllegalArgumentException(
+                    "Either userId or nationalId must be provided"
+            );
+        }
 
         return new BankAccountDetails(bankAccount);
     }

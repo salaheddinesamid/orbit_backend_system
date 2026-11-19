@@ -51,7 +51,7 @@ public class BankAccountQueryServiceUnitTest {
         when(bankAccountRepository.findByCustomer_NationalID("RANDOM"))
                 .thenReturn(Optional.of(bankAccount));
 
-        BankAccountDetails result = accountQueryService.getAccount("RANDOM");
+        BankAccountDetails result = accountQueryService.getAccount("RANDOM", null);
         assertNotNull(result);
     }
 }

@@ -36,9 +36,9 @@ public class BankingController {
     }
 
     @GetMapping("accounts/get")
-    public ResponseEntity<ApiResponse<BankAccountDetails>> getAccount(@RequestParam String nationalId){
+    public ResponseEntity<ApiResponse<BankAccountDetails>> getAccount(@RequestParam String nationalId, @RequestParam Long userId){
         BankAccountDetails bankAccount = accountQueryService
-                .getAccount(nationalId);
+                .getAccount(nationalId, userId);
 
         return ResponseEntity.status(200)
                 .body(ApiResponse.ok(bankAccount));

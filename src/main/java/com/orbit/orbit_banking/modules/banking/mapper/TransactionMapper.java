@@ -1,5 +1,6 @@
 package com.orbit.orbit_banking.modules.banking.mapper;
 
+import com.orbit.orbit_banking.modules.banking.dto.TransactionResponse;
 import com.orbit.orbit_banking.modules.banking.model.Transaction;
 import com.orbit.orbit_banking.modules.banking.model.TransactionChannel;
 import com.orbit.orbit_banking.modules.banking.model.TransactionStatus;
@@ -31,5 +32,18 @@ public class TransactionMapper {
         transaction.setStatus(TransactionStatus.EXECUTED);
 
         return transaction;
+    }
+
+    public TransactionResponse mapToDto(Transaction transaction){
+        return new TransactionResponse(
+                transaction.getTransactionId(),
+                transaction.getReference(),
+                transaction.getTransactionType(),
+                transaction.getAmount(),
+                transaction.getBalanceBefore(),
+                transaction.getBalanceAfter(),
+                transaction.getStatus(),
+                transaction.getIssuedAt()
+        );
     }
 }
