@@ -11,5 +11,5 @@ public interface AccountQueryService {
      * @param nationalId
      * @return
      */
-    BankAccountDetails getAccount(String nationalId) throws BankAccountNotFoundException;
+    BankAccountDetails getAccount(String nationalId, Long userId) throws BankAccountNotFoundException;
 }
