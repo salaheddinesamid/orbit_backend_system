@@ -62,7 +62,7 @@ public class PasswordFullAuthenticationServiceImpl implements AuthenticationServ
                 accessToken,
                 "Bearer",
                 0,
-                null
+                userAccount
         );
     }
 }
