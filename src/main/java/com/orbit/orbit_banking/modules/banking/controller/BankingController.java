@@ -3,6 +3,7 @@ package com.orbit.orbit_banking.modules.banking.controller;
 import com.orbit.orbit_banking.common.dto.ApiResponse;
 import com.orbit.orbit_banking.modules.accounts.dto.BankAccountDetails;
 import com.orbit.orbit_banking.modules.accounts.service.implementation.AccountQueryServiceImpl;
+import com.orbit.orbit_banking.modules.authentication.model.UserAccount;
 import com.orbit.orbit_banking.modules.banking.dto.DepositDto;
 import com.orbit.orbit_banking.modules.banking.dto.TransactionResponse;
 import com.orbit.orbit_banking.modules.banking.dto.TransferDto;
@@ -13,6 +14,7 @@ import com.orbit.orbit_banking.modules.banking.service.implementation.BankingPro
 import com.orbit.orbit_banking.modules.banking.service.implementation.DepositServiceImpl;
 import com.orbit.orbit_banking.modules.banking.service.implementation.TransactionQueryServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,12 +38,20 @@ public class BankingController {
     }
 
     @GetMapping("accounts/get")
-    public ResponseEntity<ApiResponse<BankAccountDetails>> getAccount(@RequestParam String nationalId, @RequestParam Long userId){
+    public ResponseEntity<ApiResponse<BankAccountDetails>> getAccount(@RequestParam(required = false) String nationalId, @RequestParam(required = false) Long userId){
         BankAccountDetails bankAccount = accountQueryService
                 .getAccount(nationalId, userId);
 
         return ResponseEntity.status(200)
                 .body(ApiResponse.ok(bankAccount));
+    }
+
+    @GetMapping("/accounts/me")
+    public ResponseEntity<ApiResponse<BankAccountDetails>> get(
+            @AuthenticationPrincipal UserAccount userAccount
+            ){
+        return ResponseEntity.status(200)
+                .body(ApiResponse.ok(accountQueryService.getAccount(null, userAccount.getUserId())));
     }
 
     @GetMapping("/products/get")
